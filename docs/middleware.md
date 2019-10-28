@@ -11,7 +11,7 @@
 ## Example:
 
 ```js
-const { createClient, composeMiddleware } = require("../../../rad");
+const { createClient, composeMiddleware } = require("dvori");
 
 const myMiddleware = next => async config => {
 	// You can modify the config here
