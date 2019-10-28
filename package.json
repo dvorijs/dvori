@@ -1,0 +1,50 @@
+{
+    "name": "dvori",
+    "version": "0.0.1",
+    "description": "Functional composable HTTP client for Node.js",
+    "main": "index.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "DEBUG=dvori* jest",
+        "test:coverage": "jest --coverage",
+        "commit": "npm run git-cz"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/readablereport/dvori.git"
+    },
+    "bugs": {
+        "url": "http://github.com/readablereport/dvori/issues"
+    },
+    "engines": {
+        "node": ">=8.10.0"
+    },
+    "keywords": [
+        "http",
+        "request",
+        "functional",
+        "composable",
+        "compose",
+        "simple",
+        "util",
+        "utility"
+    ],
+    "author": "Nathan Smith <nate@readable.report> (https://readable.report)",
+    "license": "Apache-2.0",
+    "jest": {
+        "testMatch": [
+            "**/test/**/*.js"
+        ],
+        "testPathIgnorePatterns": [
+            "/test/helpers/"
+        ]
+    },
+    "devDependencies": {
+        "jest": "^24.8.0"
+    },
+    "dependencies": {
+        "deepmerge": "^4.0.0"
+    }
+}
