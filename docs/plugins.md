@@ -35,7 +35,7 @@ Plugins allow you to hook into specific points of the clients request / response
 ## Example:
 
 ```js
-const { createClient, composePlugins } = require("../../../rad");
+const { createClient, composePlugins } = require("dvori");
 
 const addHeader = ({ key, val }) => ({
 	onRequest: config => {

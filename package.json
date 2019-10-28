@@ -11,6 +11,7 @@
         "test:coverage": "jest --coverage",
         "commit": "npm run git-cz"
     },
+    "homepage": "https://github.com/readablereport/dvori#readme",
     "repository": {
         "type": "git",
         "url": "https://github.com/readablereport/dvori.git"
