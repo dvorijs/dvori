@@ -22,6 +22,9 @@
     "engines": {
         "node": ">=8.10.0"
     },
+    "np": {
+        "yarn": false
+    },
     "keywords": [
         "http",
         "request",
