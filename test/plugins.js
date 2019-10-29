@@ -1,4 +1,4 @@
-const debug = require("debug")("rad:test:plugins");
+const debug = require("debug")("dvori:test:plugins");
 
 const { isObject, pipeSync } = require("../lib/core/utils");
 

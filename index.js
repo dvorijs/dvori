@@ -1,1 +1,1 @@
-module.exports = require("./lib/rad");
+module.exports = require("./lib/dvori");

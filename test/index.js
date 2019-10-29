@@ -1,4 +1,4 @@
-const debug = require("debug")("rad:test:index");
+const debug = require("debug")("dvori:test:index");
 
 const { createClient, composeMiddleware } = require("../index");
 

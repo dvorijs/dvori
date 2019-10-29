@@ -9,7 +9,7 @@
     "scripts": {
         "test": "DEBUG=dvori* jest",
         "test:coverage": "jest --coverage",
-        "commit": "npm run git-cz"
+        "commit": "npx np"
     },
     "homepage": "https://github.com/readablereport/dvori#readme",
     "repository": {
