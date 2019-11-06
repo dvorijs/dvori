@@ -2,14 +2,14 @@
 
 > dvori is an elegant composable HTTP client for Node.js
 
-[![npm version](http://img.shields.io/npm/v/dvori.svg?style=flat)](https://npmjs.org/package/dvori "View this project on npm")
+[![npm version](http://img.shields.io/npm/v/dvori.svg?style=flat)](https://npmjs.org/package/dvori "View this project on npm") ![NPM](https://img.shields.io/npm/l/dvori)
 
 ## Benefits
 
--   Extremely customizable
 -   Composition API
--   Request, Response, and Error Hooks
--   Powerful Middleware
+-   Extremely customizable
+-   Plugins allow you to hook into the Request, Response, and Error lifecycle
+-   Middlewares give you complete control when you need it
 
 ## Simple Example
 
@@ -17,7 +17,6 @@
 const { createClient } = require("dvori");
 
 const client = createClient();
-const { status, data } = client.get({ url: "httpbin.org/get" });
 ```
 
 ## Documentation
@@ -25,10 +24,13 @@ const { status, data } = client.get({ url: "httpbin.org/get" });
 -   [Install](#install)
 -   [Basic Concepts](#basic-concepts)
 -   [Why](#why)
--   [Create Client](#create-client)
--   [Compose Plugins](#compose-plugins)
--   [Compose Middleware](#compose-middleware)
+-   [Guide](#guide)
+    -   [Basic Concepts](#basic-concepts)
+    -   [Making requests](#making-requests)
 -   [API](#api)
+    -   [Create Client](#create-client)
+    -   [Compose Plugins](#compose-plugins)
+    -   [Compose Middleware](#compose-middleware)
 -   [Contributing](#contributing)
 -   [License](#license)
 
@@ -36,39 +38,42 @@ const { status, data } = client.get({ url: "httpbin.org/get" });
 
 Use the package manager [npm](https://www.npmjs.com/package/dvori) to install dvori.
 
-```js
+```sh
 npm install dvori
 ```
 
-## Basic Concepts
+## Guide
 
-dvori is really just a collection of functions that when used together with the power of functional composition simplify the task of creating complex API clients.
+Below is a basic walkthrough of dvori's features, taking you from beginner to advanced
 
-For example, what if you want to fetch data from two third party API's. Let's use Twitter and Reddit for this example. If you want to write an API client that can easily fetch both of these API's your code will likely end up with a lot of conditionals, shared code, and custom code to handle the intricacies of both.
+### Basic Concepts
 
-Here are just a few problems you'd have to overcome:
+At it's core dvori is just a set of functions. You use these functions to create a HTTP client and then use the client to make HTTP requests. It's composition API makes it easy to cleanly build reusable modules.
 
--   Authentication: Twitter uses OAuth1 and Reddit uses OAuth2
--   Rate Limiting: Both have different rate limits that you can't exceed
--   Pagination: Both handle pagination differently
--   Parsing the response: Both send back JSON in different formats
+When you first start to use dvori you will see that it's slightly more verbose than Axios or other HTTP clients. Once you use dvori it becomes clear how powerful it's functional approach is and how quickly it solves complex problems for you.
 
-dvori makes this task a lot simpler by allowing you to use the [plugin](#compose-plugins) or [middleware](#compose-middleware) that you need to create a client. You could easily create separate clients for Twitter and Reddit.
+### Making requests
 
-## Create Client
+The first thing you need to do to make a HTTP request is create a HTTP client. The `createClient` function makes this easy.
 
 ```js
 const { createClient } = require("dvori");
 const client = createClient();
 ```
 
-## Compose Plugins
+By default you can use a dvori HTTP client to make request just like you would with other HTTP clients. It supports standard REST verbs `"get", "post", "put", "patch", "delete", "options", "head", "trace"`. Each verb is defined as the property of your client object and is a function that accepts request configs and returns a promise.
 
-### Creating Plugins
+```js
+const { status, data } = await client.get({ url: "httpbin.org/get" });
+```
 
-`composePlugins(...plugins)`
+So far this isn't really anything special or different, but once you start using [plugins](#compose-plugins) dvori really starts to shine.
+
+### Compose Plugins
 
 Plugins allow you to hook into specific points of the clients request / response / error lifecycle.
+
+`composePlugins(...plugins)` is a function that takes an array of plugins as arguements. Each plugin is a function that returns an object with at least one of 3 hooks:
 
 1. Hook `onRequest(config)`:
 
@@ -82,7 +87,9 @@ Plugins allow you to hook into specific points of the clients request / response
 
 `onResponse: err => err;`
 
-### Example:
+##### Simple Example:
+
+This creates a custom plugin that adds a header to request before it's sent.
 
 ```js
 const { createClient, composePlugins } = require("dvori");
@@ -102,11 +109,17 @@ const client = createClient({
 		onRequest: onReqHandler
 	}
 });
+
+const response = await client.get({ ...config });
 ```
+
+Plugins become even more useful if you have multiple API's or API endpoints that have different requirements. See the examples to see how plugins can be mixed and matched to create multiple easy to use API clients.
 
 ## Compose Middleware
 
 > Ogres & middleware are like onions, they both have layers
+
+Middleware give you complete control over the request / response lifecycle.
 
 ### Built in Middleware
 
@@ -132,6 +145,18 @@ const client = createClient({
 ```
 
 ## API
+
+### `createClient([plugins, middleware])`
+
+Returns an API client
+
+#### plugins
+
+**Type:** Object
+
+### composeMiddleware()
+
+### composePlugins()
 
 ---
 
