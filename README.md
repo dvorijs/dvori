@@ -22,7 +22,6 @@ const client = createClient();
 ## Documentation
 
 -   [Install](#install)
--   [Basic Concepts](#basic-concepts)
 -   [Why](#why)
 -   [Guide](#guide)
     -   [Basic Concepts](#basic-concepts)
@@ -41,6 +40,12 @@ Use the package manager [npm](https://www.npmjs.com/package/dvori) to install dv
 ```sh
 npm install dvori
 ```
+
+## Why
+
+We needed a flexible API client that would allow use to make requests to multiple 3rd party API's with vastly different requirements all while not reinventing the wheel for each one. The client needed to be simple and modular, allowing us to write bits of functionality once and reuse them while at the same time not having them be tightly coupled and dependent on each other.
+
+Functional programming and more speficly functional composition gave us the perfect solution to this problem. If you want to see how we did it, continue reading the [guide](#guide) or jump striaght to the [API](#api).
 
 ## Guide
 
@@ -113,7 +118,7 @@ const client = createClient({
 const response = await client.get({ ...config });
 ```
 
-Plugins become even more useful if you have multiple API's or API endpoints that have different requirements. See the examples to see how plugins can be mixed and matched to create multiple easy to use API clients.
+Plugins become even more useful if you have multiple API's or API endpoints that have different requirements. Checkout the examples to see how plugins can be mixed and matched to create multiple easy to use API clients.
 
 ## Compose Middleware
 
