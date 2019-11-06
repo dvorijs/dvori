@@ -74,7 +74,7 @@ const { status, data } = await client.get({ url: "httpbin.org/get" });
 
 So far this isn't really anything special or different, but once you start using [plugins](#compose-plugins) dvori really starts to shine.
 
-### Compose Plugins
+### Plugins
 
 Plugins allow you to hook into specific points of the clients request / response / error lifecycle.
 
@@ -84,13 +84,55 @@ Plugins allow you to hook into specific points of the clients request / response
 
 `onRequest: config => config`
 
+```js
+const reqPlugin = options => {
+	return {
+		//the onRequest hook gets passed the request config
+		onRequest: config => {
+			/* modify the request config here */
+
+			//the onRequest hook must return the config object
+			return config;
+		}
+	};
+};
+```
+
 2. Hook `onResponse(response)`:
 
-`onResponse: response => response;`
+`onResponse: response => response`
+
+```js
+const resPlugin = options => {
+	return {
+		//the onResponse hook gets passed the response object
+		onResponse: response => {
+			/* modify or use the response obj here */
+
+			//the onResponse hook must return the response object
+			return response;
+		}
+	};
+};
+```
 
 3. Hook `onError(err)`:
 
-`onResponse: err => err;`
+`onError: err => err;`
+
+```js
+const errPlugin = options => {
+	return {
+		//the onError hook gets passed the error
+		onError: err => {
+			/* do something with the error here */
+
+			//the onError hook must return the err
+			return err;
+		}
+	};
+};
+```
 
 ##### Simple Example:
 
@@ -120,7 +162,7 @@ const response = await client.get({ ...config });
 
 Plugins become even more useful if you have multiple API's or API endpoints that have different requirements. Checkout the examples to see how plugins can be mixed and matched to create multiple easy to use API clients.
 
-## Compose Middleware
+## Middleware
 
 > Ogres & middleware are like onions, they both have layers
 
@@ -153,15 +195,17 @@ const client = createClient({
 
 ### `createClient([plugins, middleware])`
 
-Returns an API client
+Returns a HTTP client object
 
-#### plugins
+### composePlugins()
 
 **Type:** Object
 
-### composeMiddleware()
+`onRequest: config => config`
+`onResponse: response => response;`
+`onError: err => err;`
 
-### composePlugins()
+### composeMiddleware()
 
 ---
 
