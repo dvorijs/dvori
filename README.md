@@ -6,10 +6,10 @@
 
 ## Benefits
 
--   Composition API
--   Extremely customizable
--   Plugins allow you to hook into the Request, Response, and Error lifecycle
--   Middlewares give you complete control when you need it
+- Composition API
+- Extremely customizable
+- Plugins allow you to hook into the Request, Response, and Error lifecycle
+- Middlewares give you complete control when you need it
 
 ## Simple Example
 
@@ -21,17 +21,17 @@ const client = createClient();
 
 ## Documentation
 
--   [Install](#install)
--   [Why](#why)
--   [Guide](#guide)
-    -   [Basic Concepts](#basic-concepts)
-    -   [Making requests](#making-requests)
--   [API](#api)
-    -   [Create Client](#create-client)
-    -   [Compose Plugins](#compose-plugins)
-    -   [Compose Middleware](#compose-middleware)
--   [Contributing](#contributing)
--   [License](#license)
+- [Install](#install)
+- [Why](#why)
+- [Guide](#guide)
+  - [Basic Concepts](#basic-concepts)
+  - [Making requests](#making-requests)
+- [API](#api)
+  - [Create Client](#create-client)
+  - [Compose Plugins](#compose-plugins)
+  - [Compose Middleware](#compose-middleware)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Install
 
@@ -170,9 +170,9 @@ Middleware give you complete control over the request / response lifecycle.
 
 ### Built in Middleware
 
--   `pagination()`
--   `OAuth1()`
--   `OAuth2()`
+- `pagination()`
+- `OAuth1()`
+- `OAuth2()`
 
 ### Example:
 
