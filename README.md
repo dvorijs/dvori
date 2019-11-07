@@ -26,6 +26,8 @@ const client = createClient();
 - [Guide](#guide)
   - [Basic Concepts](#basic-concepts)
   - [Making requests](#making-requests)
+  - [Plugins](#plugins)
+  - [Middleware](#middleware)
 - [API](#api)
   - [Create Client](#create-client)
   - [Compose Plugins](#compose-plugins)
@@ -134,7 +136,7 @@ const errPlugin = options => {
 };
 ```
 
-##### Simple Example:
+#### Simple Example:
 
 This creates a custom plugin that adds a header to request before it's sent.
 
@@ -162,7 +164,23 @@ const response = await client.get({ ...config });
 
 Plugins become even more useful if you have multiple API's or API endpoints that have different requirements. Checkout the examples to see how plugins can be mixed and matched to create multiple easy to use API clients.
 
-## Middleware
+#### Default Plugins
+
+dvori comes with some useful plugins already written for you.
+
+**Request**
+
+- `baseUrl`
+- `headers`
+- `userAgent`
+- `params`
+- `data`
+
+**Response**
+
+- `json`
+
+### Middleware
 
 > Ogres & middleware are like onions, they both have layers
 
@@ -190,6 +208,12 @@ const client = createClient({
 	middleware: composeMiddleware(myMiddleware)
 });
 ```
+
+#### Default Middleware
+
+- Retry
+- Pagination
+- OAuth2
 
 ## API
 
