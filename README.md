@@ -186,12 +186,6 @@ dvori comes with some useful plugins already written for you.
 
 Middleware give you complete control over the request / response lifecycle.
 
-### Built in Middleware
-
-- `pagination()`
-- `OAuth1()`
-- `OAuth2()`
-
 ### Example:
 
 ```js
@@ -214,22 +208,6 @@ const client = createClient({
 - Retry
 - Pagination
 - OAuth2
-
-## API
-
-### `createClient([plugins, middleware])`
-
-Returns a HTTP client object
-
-### composePlugins()
-
-**Type:** Object
-
-`onRequest: config => config`
-`onResponse: response => response;`
-`onError: err => err;`
-
-### composeMiddleware()
 
 ---
 
