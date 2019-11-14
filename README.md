@@ -6,10 +6,11 @@
 
 ## Benefits
 
-- Composition API
-- Extremely customizable
-- Plugins allow you to hook into the Request, Response, and Error lifecycle
-- Middlewares give you complete control when you need it
+-   Composition API
+-   Extremely customizable
+-   Zero external dependencies
+-   Plugins allow you to hook into the Request, Response, and Error lifecycle
+-   Middlewares give you complete control when you need it
 
 ## Simple Example
 
@@ -21,19 +22,19 @@ const client = createClient();
 
 ## Documentation
 
-- [Install](#install)
-- [Why](#why)
-- [Guide](#guide)
-  - [Basic Concepts](#basic-concepts)
-  - [Making requests](#making-requests)
-  - [Plugins](#plugins)
-  - [Middleware](#middleware)
-- [API](docs/api/index.md)
-  - [Create Client](docs/api/index.md#create-client)
-  - [Compose Plugins](docs/api/index.md#compose-plugins)
-  - [Compose Middleware](docs/api/index.md#compose-middleware)
-- [Contributing](#contributing)
-- [License](#license)
+-   [Install](#install)
+-   [Why](#why)
+-   [Guide](#guide)
+    -   [Basic Concepts](#basic-concepts)
+    -   [Making requests](#making-requests)
+    -   [Plugins](#plugins)
+    -   [Middleware](#middleware)
+-   [API](docs/api/index.md)
+    -   [Create Client](docs/api/index.md#create-client)
+    -   [Compose Plugins](docs/api/index.md#compose-plugins)
+    -   [Compose Middleware](docs/api/index.md#compose-middleware)
+-   [Contributing](#contributing)
+-   [License](#license)
 
 ## Install
 
@@ -170,15 +171,15 @@ dvori comes with some useful plugins already written for you.
 
 **Request**
 
-- `baseUrl`
-- `headers`
-- `userAgent`
-- `params`
-- `data`
+-   `baseUrl`
+-   `headers`
+-   `userAgent`
+-   `params`
+-   `data`
 
 **Response**
 
-- `json`
+-   `json`
 
 ### Middleware
 
@@ -205,9 +206,9 @@ const client = createClient({
 
 #### Default Middleware
 
-- Retry
-- Pagination
-- OAuth2
+-   Retry
+-   Pagination
+-   OAuth2
 
 ---
 
