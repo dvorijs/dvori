@@ -28,6 +28,7 @@ describe("Helper functions", () => {
 		expect(func).toEqual(expect.any(Function));
 		expect(await func(2)).toEqual(6);
 	});
+
 	test("pipeSync()", () => {
 		let squareNumber = number => {
 			return number * number;
@@ -96,3 +97,5 @@ describe("Helper functions", () => {
 		}).toThrow();
 	});
 });
+
+describe("Type Checks");
