@@ -98,4 +98,5 @@ describe("Helper functions", () => {
 	});
 });
 
-describe("Type Checks");
+describe("Type Checks", () => {});
+describe("Type Conversions", () => {});
