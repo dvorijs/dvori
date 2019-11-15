@@ -23,7 +23,8 @@
         "node": ">=8.10.0"
     },
     "np": {
-        "yarn": false
+        "yarn": false,
+        "cleanup": true
     },
     "keywords": [
         "http",
