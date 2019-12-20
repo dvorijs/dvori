@@ -43,7 +43,8 @@
             "**/test/**/*.js"
         ],
         "testPathIgnorePatterns": [
-            "/test/helpers/"
+            "/test/helpers/",
+            "/test/__mocks__/"
         ]
     },
     "devDependencies": {
