@@ -10,9 +10,11 @@
 
 ### Response Plugins
 
--   `retry()`
 -   `json()`
--   `parse()`
+
+### Error Plugins
+
+> Coming soon
 
 # Creating Plugins
 

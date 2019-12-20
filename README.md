@@ -69,10 +69,12 @@ const { createClient } = require("dvori");
 const client = createClient();
 ```
 
-By default you can use a dvori HTTP client to make request just like you would with other HTTP clients. It supports standard REST verbs `"get", "post", "put", "patch", "delete", "options", "head", "trace"`. Each verb is defined as the property of your client object and is a function that accepts request configs and returns a promise.
+By default you can use a dvori HTTP client to make request just like you would with other HTTP clients. It supports standard REST verbs `"get", "post", "put", "patch", "delete", "options", "head", "trace"`. Each verb is defined as the property of your client object and is a function that accepts request configs, returning a promise.
 
 ```js
-const { status, data } = await client.get({ url: "httpbin.org/get" });
+const { status, data } = await client.get({
+	url: "httpbin.org/get"
+});
 ```
 
 So far this isn't really anything special or different, but once you start using [plugins](#compose-plugins) dvori really starts to shine.
@@ -83,7 +85,7 @@ Plugins allow you to hook into specific points of the clients request / response
 
 `composePlugins(...plugins)` is a function that takes an array of plugins as arguements. Each plugin is a function that returns an object with at least one of 3 hooks:
 
-1. Hook `onRequest(config)`:
+1. `onRequest(config)` Hook:
 
 `onRequest: config => config`
 
@@ -101,7 +103,7 @@ const reqPlugin = options => {
 };
 ```
 
-2. Hook `onResponse(response)`:
+2. `onResponse(response)` Hook:
 
 `onResponse: response => response`
 
@@ -119,7 +121,7 @@ const resPlugin = options => {
 };
 ```
 
-3. Hook `onError(err)`:
+3. `onError(err)` Hook:
 
 `onError: err => err;`
 
@@ -128,9 +130,9 @@ const errPlugin = options => {
 	return {
 		//the onError hook gets passed the error
 		onError: err => {
-			/* do something with the error here */
-
-			//the onError hook must return the err
+			/* do something with the error here. ex: log it */
+			console.error(err);
+			//the onError hook must return the err object
 			return err;
 		}
 	};
@@ -144,7 +146,7 @@ This creates a custom plugin that adds a header to request before it's sent.
 ```js
 const { createClient, composePlugins } = require("dvori");
 
-const addHeader = ({ key, val }) => ({
+const addHeader = (key, val) => ({
 	onRequest: config => {
 		config.headers[key] = val;
 		return config;
@@ -152,7 +154,10 @@ const addHeader = ({ key, val }) => ({
 });
 
 // composePlugin accepts multiple plugins and composes them into one function
-const onReqHandler = composePlugins(addHeader("Content-Type", "application/json"));
+const onReqHandler = composePlugins(
+	addHeader("Content-Type", "application/json"),
+	addHeader("User-Agent", "MyCustomUserAgent:v1")
+);
 
 const client = createClient({
 	plugins: {
