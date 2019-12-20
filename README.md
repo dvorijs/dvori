@@ -1,6 +1,6 @@
 # dvori
 
-> dvori is an elegant composable HTTP client for Node.js
+> dvori is an elegant functional (composable) HTTP client for Node.js
 
 [![npm version](http://img.shields.io/npm/v/dvori.svg?style=flat)](https://npmjs.org/package/dvori "View this project on npm") ![NPM](https://img.shields.io/npm/l/dvori)
 
