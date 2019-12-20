@@ -47,7 +47,8 @@
         ]
     },
     "devDependencies": {
-        "jest": "^24.8.0"
+        "jest": "^24.8.0",
+        "np": "^5.2.1"
     },
     "dependencies": {
         "deepmerge": "^4.0.0"
