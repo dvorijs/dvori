@@ -15,7 +15,9 @@ npm install dvori
 ```js
 const { createClient } = require("dvori");
 
-const client = createClient({ url: "httpbin.org/get" });
+const client = createClient();
+
+const response = client.get({ url: "httpbin.org/get" });
 ```
 
 ## Contributing
