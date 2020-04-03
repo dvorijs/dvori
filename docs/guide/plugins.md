@@ -10,15 +10,17 @@
 
 ### Response Plugins
 
--   `retry()`
 -   `json()`
--   `parse()`
+
+### Error Plugins
+
+> Coming soon
 
 # Creating Plugins
 
 `composePlugins(...plugins)`
 
-Plugins allow you to hook into specific points of the clients request / response lifecycle.
+Plugins allow you to hook into specific points of the clients request / response / error lifecycle.
 
 1. Hook `onRequest(config)`:
 

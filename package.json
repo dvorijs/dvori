@@ -1,6 +1,6 @@
 {
     "name": "dvori",
-    "version": "0.0.3",
+    "version": "0.0.6",
     "description": "Functional composable HTTP client for Node.js",
     "main": "index.js",
     "directories": {
@@ -9,7 +9,7 @@
     "scripts": {
         "test": "DEBUG=dvori* jest",
         "test:coverage": "jest --coverage",
-        "commit": "npx np"
+        "release": "npx np"
     },
     "homepage": "https://github.com/readablereport/dvori#readme",
     "repository": {
@@ -23,7 +23,8 @@
         "node": ">=8.10.0"
     },
     "np": {
-        "yarn": false
+        "yarn": false,
+        "cleanup": true
     },
     "keywords": [
         "http",
@@ -42,11 +43,13 @@
             "**/test/**/*.js"
         ],
         "testPathIgnorePatterns": [
-            "/test/helpers/"
+            "/test/helpers/",
+            "/test/__mocks__/"
         ]
     },
     "devDependencies": {
-        "jest": "^24.8.0"
+        "jest": "^24.8.0",
+        "np": "^5.2.1"
     },
     "dependencies": {
         "deepmerge": "^4.0.0"
