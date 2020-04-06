@@ -52,6 +52,7 @@
         "np": "^5.2.1"
     },
     "dependencies": {
+        "debug": "4.1.1",
         "deepmerge": "^4.0.0"
     }
 }
