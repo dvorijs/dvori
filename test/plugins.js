@@ -2,10 +2,9 @@ const debug = require("debug")("dvori:test:plugins");
 
 const { isObject, pipeSync } = require("../lib/core/utils");
 
-const { createClient, composePlugins } = require("../index");
+const { createClient, composePlugins, plugins } = require("../index");
 
-const baseURL = require("../lib/plugins/base-url");
-const json = require("../lib/plugins/json");
+const { baseURL, json } = plugins;
 
 describe("Plugins Core", () => {
 	test("Can require", () => {
@@ -21,7 +20,7 @@ describe("Plugins Core", () => {
 
 	test("Make a request with plugins", async () => {
 		const client = createClient({
-			plugins: composePlugins(baseURL("https://httpbin.org"), json())
+			plugins: composePlugins(baseURL("https://httpbin.org"), json()),
 		});
 		expect(client).toEqual(expect.any(Object));
 		expect(client).toHaveProperty("get", expect.any(Function));
