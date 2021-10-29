@@ -48,7 +48,7 @@
         ]
     },
     "devDependencies": {
-        "jest": "^24.8.0",
+        "jest": "^27.3.1",
         "np": "^6.2.4"
     },
     "dependencies": {
