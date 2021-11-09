@@ -1,5 +1,3 @@
-![Dvori HTTP CLient](img/dvori-logo.png)
-
 <p align="center">
   <img
     width="400"
