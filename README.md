@@ -16,11 +16,15 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/dvori" title="View this project on npm">
-  	<img src="http://img.shields.io/npm/v/dvori.svg?style=flat)](https://npmjs.org/package/dvori" alt="npm version" />
+  	<img src="http://img.shields.io/npm/v/dvori.svg?style=flat-square" alt="npm version" />
+  </a>
+
+  <a href="https://github.com/imns/dvori/issues" title="Open issues">
+  	<img src="https://img.shields.io/github/issues/imns/dvori.svg?style=flat-square" alt="issues" />
   </a>
 
   <a href="https://opensource.org/licenses/MPL-2.0" title="License">
-  	<img src="https://img.shields.io/npm/l/dvori" alt="License" />
+  	<img src="https://img.shields.io/github/license/imns/dvori.svg?style=flat-square" alt="MPL-2.0 License" />
   </a>
 
 </p>
