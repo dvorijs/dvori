@@ -1,6 +1,6 @@
 {
     "name": "dvori",
-    "version": "0.0.10",
+    "version": "1.0.0",
     "description": "Functional composable HTTP client for Node.js",
     "main": "index.js",
     "directories": {
