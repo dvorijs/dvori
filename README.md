@@ -37,7 +37,11 @@
 const { createClient } = require("dvori");
 
 const client = createClient();
-const { status, data } = await client.get({ url: "https://www.reddit.com/r/sausagetalk/new.json" });
+const { status, data } = await client.get({
+	url: "https://www.reddit.com/r/sausagetalk/new.json",
+});
+
+console.log(data);
 ```
 
 ## Documentation
@@ -241,8 +245,8 @@ const client = createClient({
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
+Please make sure to update tests appropriately.
 
 ## License
 
-Apache-2.0
+Mozilla Public License 2.0 (MPL-2.0)
