@@ -37,7 +37,7 @@
         "utility"
     ],
     "author": "Nathan Smith <nate@readable.report> (https://readable.report)",
-    "license": "Apache-2.0",
+    "license": "MPL-2.0",
     "jest": {
         "testMatch": [
             "**/test/**/*.js"

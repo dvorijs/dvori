@@ -1,14 +1,29 @@
 <p align="center">
   <img
-    width="400"
-    src="https://raw.githubusercontent.com/imns/dvori/master/img/dvori-logo.png"
+    width="433"
+    src="https://raw.githubusercontent.com/imns/dvori/master/img/dvori-logo@2x.png"
     alt="Dvori - HTTP cLient for Node.js"
   />
 </p>
 
-# dvori
+<p align="center">
+  <a href="https://imns.co/projects/dvori">Website</a>
+  ·
+  <a href="#Install">Installation</a>
+  ·
+  <a href="#guide">Configuration</a>
+</p>
 
-[![npm version](http://img.shields.io/npm/v/dvori.svg?style=flat)](https://npmjs.org/package/dvori "View this project on npm") ![NPM](https://img.shields.io/npm/l/dvori)
+<p align="center">
+  <a href="https://www.npmjs.com/package/dvori" title="View this project on npm">
+  	<img src="http://img.shields.io/npm/v/dvori.svg?style=flat)](https://npmjs.org/package/dvori" alt="npm version" />
+  </a>
+
+  <a href="https://opensource.org/licenses/MPL-2.0" title="License">
+  	<img src="https://img.shields.io/npm/l/dvori" alt="License" />
+  </a>
+
+</p>
 
 ## Benefits
 
@@ -22,6 +37,7 @@
 const { createClient } = require("dvori");
 
 const client = createClient();
+const { status, data } = await client.get({ url: "https://www.reddit.com/r/sausagetalk/new.json" });
 ```
 
 ## Documentation
@@ -71,7 +87,6 @@ The first thing you need to do to make a HTTP request is create a HTTP client. T
 ```js
 const { createClient } = require("dvori");
 const client = createClient();
-const { data, status } = client.get("https://www.reddit.com/r/sausagetalk/new.json");
 ```
 
 By default you can use a dvori HTTP client to make request just like you would with other HTTP clients. It supports standard REST verbs `"get", "post", "put", "patch", "delete", "options", "head", "trace"`. Each verb is defined as the property of your client object and is a function that accepts request configs, returning a promise.
