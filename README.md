@@ -1,6 +1,14 @@
-# dvori
+![Dvori HTTP CLient](img/dvori-logo.png)
 
-> dvori is an elegant functional (composable) HTTP client for Node.js
+<p align="center">
+  <img
+    width="400"
+    src="https://raw.githubusercontent.com/imns/dvori/master/img/dvori-logo.png"
+    alt="Dvori - HTTP cLient for Node.js"
+  />
+</p>
+
+# dvori
 
 [![npm version](http://img.shields.io/npm/v/dvori.svg?style=flat)](https://npmjs.org/package/dvori "View this project on npm") ![NPM](https://img.shields.io/npm/l/dvori)
 
@@ -8,9 +16,7 @@
 
 -   Composition API
 -   Extremely customizable
--   Zero external dependencies
--   Plugins allow you to hook into the Request, Response, and Error lifecycle
--   Middlewares give you complete control when you need it
+-   Plugins and Middlewares systems give you total control
 
 ## Simple Example
 
@@ -67,13 +73,14 @@ The first thing you need to do to make a HTTP request is create a HTTP client. T
 ```js
 const { createClient } = require("dvori");
 const client = createClient();
+const { data, status } = client.get("https://www.reddit.com/r/sausagetalk/new.json");
 ```
 
 By default you can use a dvori HTTP client to make request just like you would with other HTTP clients. It supports standard REST verbs `"get", "post", "put", "patch", "delete", "options", "head", "trace"`. Each verb is defined as the property of your client object and is a function that accepts request configs, returning a promise.
 
 ```js
 const { status, data } = await client.get({
-	url: "httpbin.org/get"
+	url: "httpbin.org/get",
 });
 ```
 
@@ -90,15 +97,15 @@ Plugins allow you to hook into specific points of the clients request / response
 `onRequest: config => config`
 
 ```js
-const reqPlugin = options => {
+const reqPlugin = (options) => {
 	return {
 		//the onRequest hook gets passed the request config
-		onRequest: config => {
+		onRequest: (config) => {
 			/* modify the request config here */
 
 			//the onRequest hook must return the config object
 			return config;
-		}
+		},
 	};
 };
 ```
@@ -108,15 +115,15 @@ const reqPlugin = options => {
 `onResponse: response => response`
 
 ```js
-const resPlugin = options => {
+const resPlugin = (options) => {
 	return {
 		//the onResponse hook gets passed the response object
-		onResponse: response => {
+		onResponse: (response) => {
 			/* modify or use the response obj here */
 
 			//the onResponse hook must return the response object
 			return response;
-		}
+		},
 	};
 };
 ```
@@ -126,15 +133,15 @@ const resPlugin = options => {
 `onError: err => err;`
 
 ```js
-const errPlugin = options => {
+const errPlugin = (options) => {
 	return {
 		//the onError hook gets passed the error
-		onError: err => {
+		onError: (err) => {
 			/* do something with the error here. ex: log it */
 			console.error(err);
 			//the onError hook must return the err object
 			return err;
-		}
+		},
 	};
 };
 ```
@@ -147,10 +154,10 @@ This creates a custom plugin that adds a header to request before it's sent.
 const { createClient, composePlugins } = require("dvori");
 
 const addHeader = (key, val) => ({
-	onRequest: config => {
+	onRequest: (config) => {
 		config.headers[key] = val;
 		return config;
-	}
+	},
 });
 
 // composePlugin accepts multiple plugins and composes them into one function
@@ -161,8 +168,8 @@ const onReqHandler = composePlugins(
 
 const client = createClient({
 	plugins: {
-		onRequest: onReqHandler
-	}
+		onRequest: onReqHandler,
+	},
 });
 
 const response = await client.get({ ...config });
@@ -197,7 +204,7 @@ Middleware give you complete control over the request / response lifecycle.
 ```js
 const { createClient, composeMiddleware } = require("dvori");
 
-const myMiddleware = next => async config => {
+const myMiddleware = (next) => async (config) => {
 	// You can modify the config here
 	let response = await next(config);
 	// You can modify the response here
@@ -205,7 +212,7 @@ const myMiddleware = next => async config => {
 };
 
 const client = createClient({
-	middleware: composeMiddleware(myMiddleware)
+	middleware: composeMiddleware(myMiddleware),
 });
 ```
 
