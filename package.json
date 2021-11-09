@@ -29,6 +29,8 @@
     "keywords": [
         "http",
         "request",
+        "rest",
+        "http-client",
         "functional",
         "composable",
         "compose",
