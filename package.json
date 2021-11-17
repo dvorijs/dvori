@@ -1,23 +1,30 @@
 {
     "name": "dvori",
-    "version": "1.0.0",
-    "description": "Functional composable HTTP client for Node.js",
+    "scope": "@dvori",
+    "version": "1.0.1",
+    "description": "Composable HTTP client for Node.js",
     "main": "index.js",
     "directories": {
+        "lib": "lib",
         "test": "test"
     },
     "scripts": {
-        "test": "DEBUG=dvori* npx jest",
-        "test:coverage": "npx jest --coverage",
+        "test": "npm test --workspaces",
+        "test:coverage": "npm test --workspaces -- --coverage",
         "release": "NODE_ENV=production npx np"
     },
-    "homepage": "https://github.com/readablereport/dvori#readme",
+    "homepage": "https://dvorijs.com",
     "repository": {
         "type": "git",
-        "url": "https://github.com/readablereport/dvori.git"
+        "url": "git+https://github.com/dvorijs/dvori.git"
     },
+    "workspaces": [
+        "packages/*",
+        "core",
+        "utils"
+    ],
     "bugs": {
-        "url": "http://github.com/readablereport/dvori/issues"
+        "url": "http://github.com/dvorijs/dvori/issues"
     },
     "engines": {
         "node": ">=8.10.0"
@@ -38,17 +45,8 @@
         "util",
         "utility"
     ],
-    "author": "Nathan Smith <nate@readable.report> (https://readable.report)",
+    "author": "IMNS LLC",
     "license": "MPL-2.0",
-    "jest": {
-        "testMatch": [
-            "**/test/**/*.js"
-        ],
-        "testPathIgnorePatterns": [
-            "/test/helpers/",
-            "/test/__mocks__/"
-        ]
-    },
     "devDependencies": {
         "jest": "^27.3.1",
         "np": "^6.2.4"
