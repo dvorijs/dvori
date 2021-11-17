@@ -1,0 +1,11 @@
+{
+    "name": "@dvori/core",
+    "version": "1.0.0",
+    "main": "index.js",
+    "devDependencies": {
+        "jest": "^27.3.1"
+    },
+    "scripts": {
+        "test": "jest"
+    }
+}
