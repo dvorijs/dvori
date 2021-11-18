@@ -1,12 +1,11 @@
 {
     "name": "dvori",
     "scope": "@dvori",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "description": "Composable HTTP client for Node.js",
     "main": "index.js",
     "directories": {
-        "lib": "lib",
-        "test": "test"
+        "packages": "packages"
     },
     "scripts": {
         "test": "npm test --workspaces",
