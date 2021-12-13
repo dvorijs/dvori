@@ -47,7 +47,7 @@
     "author": "IMNS LLC",
     "license": "MPL-2.0",
     "devDependencies": {
-        "jest": "^27.4.3",
+        "jest": "^27.4.4",
         "np": "^7.6.0"
     },
     "dependencies": {
