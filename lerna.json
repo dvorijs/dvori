@@ -1,6 +1,10 @@
 {
-    "packages": ["packages/core", "packages/utils", "packages/plugins"],
-    "version": "1.0.0",
+    "packages": [
+        "packages/core",
+        "packages/utils",
+        "packages/plugins"
+    ],
+    "version": "1.0.1",
     "conventionalCommits": true,
     "exact": true,
     "command": {

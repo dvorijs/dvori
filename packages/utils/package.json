@@ -1,6 +1,6 @@
 {
     "name": "@dvori/utils",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "main": "src/index.js",
     "devDependencies": {
         "jest": "^27.4.5"
