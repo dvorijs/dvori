@@ -1,4 +1,20 @@
 {
     "packages": ["packages/core", "packages/utils", "packages/plugins"],
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "conventionalCommits": true,
+    "exact": true,
+    "command": {
+        "init": {
+            "exact": true
+        }
+    },
+    "changelog": {
+        "labels": {
+            "feat": "New Feature",
+            "fix": "Bug Fix",
+            "docs": "Documentation",
+            "perf": "Performance",
+            "refactor": "Code Refactoring"
+        }
+    }
 }
