@@ -8,7 +8,7 @@
         "packages": "packages"
     },
     "scripts": {
-        "test": "npm test --workspaces",
+        "test": "lerna run test",
         "test:coverage": "npm test --workspaces -- --coverage",
         "release": "NODE_ENV=production npx np"
     },
@@ -17,11 +17,6 @@
         "type": "git",
         "url": "git+https://github.com/dvorijs/dvori.git"
     },
-    "workspaces": [
-        "packages/*",
-        "core",
-        "utils"
-    ],
     "bugs": {
         "url": "http://github.com/dvorijs/dvori/issues"
     },
@@ -48,10 +43,9 @@
     "license": "MPL-2.0",
     "devDependencies": {
         "jest": "^27.4.5",
-        "np": "^7.6.0"
+        "lerna": "^4.0.0"
     },
     "dependencies": {
-        "debug": "4.3.3",
-        "deepmerge": "^4.0.0"
+        "debug": "4.3.3"
     }
 }
