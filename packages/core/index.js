@@ -1,5 +1,4 @@
 "use strict";
-const debug = require("debug")("dvori:core");
 
 const { pipe } = require("@dvori/utils");
 

@@ -42,10 +42,16 @@
     "author": "IMNS LLC",
     "license": "MPL-2.0",
     "devDependencies": {
+        "cz-conventional-changelog": "^3.3.0",
         "jest": "^27.4.5",
         "lerna": "^4.0.0"
     },
     "dependencies": {
         "debug": "4.3.3"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
     }
 }

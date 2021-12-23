@@ -1,4 +1,4 @@
-const { createClient, composeMiddleware } = require("@dvori/core");
+const { createClient, composeMiddleware } = require("..");
 
 describe("Core", () => {
 	test("Can require", () => {
