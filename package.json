@@ -10,7 +10,7 @@
     "scripts": {
         "test": "lerna run test",
         "test:coverage": "npm test --workspaces -- --coverage",
-        "release": "NODE_ENV=production npx np"
+        "release": "git cz && NODE_ENV=production npx lerna publish"
     },
     "homepage": "https://dvorijs.com",
     "repository": {
@@ -43,6 +43,7 @@
     "license": "MPL-2.0",
     "devDependencies": {
         "cz-conventional-changelog": "^3.3.0",
+        "husky": "^7.0.4",
         "jest": "^27.4.5",
         "lerna": "^4.0.0"
     },
@@ -52,6 +53,11 @@
     "config": {
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
+        }
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
         }
     }
 }
