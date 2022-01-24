@@ -19,8 +19,8 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/dvori" title="View this project on npm">
-    <img src="http://img.shields.io/npm/v/dvori.svg?style=flat-square" alt="npm version" />
+  <a href="https://www.npmjs.com/package/@dvori/core" title="View this project on npm">
+    <img src="https://img.shields.io/npm/v/@dvori/core.svg?style=flat-square" alt="npm version" />
   </a>
 
   <a href="https://github.com/imns/dvori/issues" title="Open issues">
@@ -33,15 +33,9 @@
 
 </p>
 
-## Installation
+## What is Dvori?
 
-...
-
-## Documentation
-
--   Guide
--   API
--   Examples
+DvoriJS is a HTTP Client for Node.js. It's completely composable. To learn more please visit the documentation at [dvorijs.com](https://dvorijs.com/).
 
 ## Simple Example
 
