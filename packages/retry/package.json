@@ -7,5 +7,19 @@
     },
     "scripts": {
         "test": "jest"
+    },
+    "homepage": "https://dvorijs.com",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dvorijs/dvori.git"
+    },
+    "bugs": {
+        "url": "http://github.com/dvorijs/dvori/issues"
+    },
+    "author": "Nate Smith (https://imns.co/)",
+    "license": "MPL-2.0",
+    "gitHead": "205e74c56a78451e0a2ea9885683ab8ef2eb6a84",
+    "publishConfig": {
+        "access": "public"
     }
 }

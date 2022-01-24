@@ -17,5 +17,9 @@
         "url": "http://github.com/dvorijs/dvori/issues"
     },
     "author": "Nate Smith (https://imns.co/)",
-    "license": "MPL-2.0"
+    "license": "MPL-2.0",
+    "gitHead": "205e74c56a78451e0a2ea9885683ab8ef2eb6a84",
+    "publishConfig": {
+        "access": "public"
+    }
 }
