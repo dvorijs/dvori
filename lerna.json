@@ -2,7 +2,10 @@
     "packages": [
         "packages/core",
         "packages/utils",
-        "packages/plugins"
+        "packages/plugins",
+        "packages/retry",
+        "packages/pagination",
+        "packages/oauth2"
     ],
     "version": "1.0.2",
     "exact": true,
