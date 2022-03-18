@@ -48,7 +48,7 @@
         "lerna": "^4.0.0"
     },
     "dependencies": {
-        "debug": "4.3.3"
+        "debug": "4.3.4"
     },
     "config": {
         "commitizen": {
