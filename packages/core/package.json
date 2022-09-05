@@ -6,7 +6,7 @@
         "test": "jest"
     },
     "devDependencies": {
-        "jest": "^27.4.5"
+        "jest": "^29.0.2"
     },
     "homepage": "https://dvorijs.com",
     "repository": {
