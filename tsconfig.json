@@ -1,0 +1,26 @@
+{
+    "display": "Node 17+ + Modern Browsers + Strictest",
+    "compilerOptions": {
+        "lib": ["es2022", "DOM"],
+        "module": "esnext",
+        "target": "es2022",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "allowUnusedLabels": false,
+        "allowUnreachableCode": false,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "checkJs": false,
+        "allowJs": true,
+        "declaration": true,
+        "outDir": "dist"
+    },
+    "include": ["./src/**/*"]
+}
