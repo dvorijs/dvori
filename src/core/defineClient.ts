@@ -42,7 +42,7 @@ export function defineClient(config: ClientConfig) {
     async function executeLifecycleStep(step: LifecycleKey, context: any) {
         for (const fn of lifecycleGroups[step]) {
             const result = await fn(context);
-            if (result !== undefined) {
+            if (result !== null && result !== undefined) {
                 context = result; // Reassign context if the composable returns a new object
             }
         }
