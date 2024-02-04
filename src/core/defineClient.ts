@@ -1,16 +1,12 @@
-import { ClientConfig, RequestConfig, Composable } from "../types/index";
+import {
+    ClientConfig,
+    RequestConfig,
+    LifecycleGroups,
+    ComposableKey,
+    LifecycleKey,
+    VerbMethodOptions,
+} from "../types/index";
 import fetchWrapper from "./fetchWrapper";
-
-type ComposableKey = keyof Composable;
-type LifecycleKey = keyof LifecycleGroups;
-type VerbMethodOptions = Omit<RequestConfig, "url">;
-
-interface LifecycleGroups {
-    beforeRequest: Function[];
-    afterResponse: Function[];
-    onError: Function[];
-    finalize: Function[];
-}
 
 export function defineClient(config: ClientConfig) {
     // Initialize lifecycleGroups, including setup for completeness
@@ -45,15 +41,19 @@ export function defineClient(config: ClientConfig) {
     // Function to execute composables for a given lifecycle step
     async function executeLifecycleStep(step: LifecycleKey, context: any) {
         for (const fn of lifecycleGroups[step]) {
-            await fn(context); // 'context' will vary based on the lifecycle step
+            const result = await fn(context);
+            if (result !== undefined) {
+                context = result; // Reassign context if the composable returns a new object
+            }
         }
+        return context; // Return the potentially modified context
     }
 
     // A wrapper around fetchWrapper that includes lifecycle hook execution
     async function customFetch(
         requestOptions: RequestConfig
     ): Promise<Response> {
-        const fullRequestOptions = {
+        let fullRequestOptions = {
             ...config,
             ...requestOptions,
             url: requestOptions.url,
@@ -61,7 +61,12 @@ export function defineClient(config: ClientConfig) {
 
         try {
             // Execute beforeRequest hooks
-            await executeLifecycleStep("beforeRequest", fullRequestOptions);
+            fullRequestOptions = await executeLifecycleStep(
+                "beforeRequest",
+                fullRequestOptions
+            );
+
+            // const response = await fetchWrapper(fullRequestOptions);
 
             const response = await fetchWrapper(fullRequestOptions);
 

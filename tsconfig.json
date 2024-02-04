@@ -1,6 +1,10 @@
 {
     "display": "Node 17+ + Modern Browsers + Strictest",
     "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"]
+        },
         "lib": ["es2022", "DOM"],
         "module": "esnext",
         "target": "es2022",

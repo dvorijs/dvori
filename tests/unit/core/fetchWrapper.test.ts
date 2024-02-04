@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, test, expect, vi } from "vitest";
-import { fetchWrapper, resolveUrl } from "../src/core/fetchWrapper";
+import { fetchWrapper, resolveUrl } from "../../../src/core/fetchWrapper";
 
 // Create a mock fetch function
 const mockFetch = vi.fn();

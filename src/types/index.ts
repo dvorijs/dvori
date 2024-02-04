@@ -15,3 +15,14 @@ export interface Composable {
     onError?: (error: any) => Promise<any> | any;
     finalize?: () => void;
 }
+
+export interface LifecycleGroups {
+    beforeRequest: Function[];
+    afterResponse: Function[];
+    onError: Function[];
+    finalize: Function[];
+}
+
+export type ComposableKey = keyof Composable;
+export type LifecycleKey = keyof LifecycleGroups;
+export type VerbMethodOptions = Omit<RequestConfig, "url">;
