@@ -28,11 +28,22 @@ export function resolveUrl(baseURL: string | undefined, url: string): string {
  * @param url The URL for the request, which can be a full URL or a path to be resolved against baseURL.
  * @returns A promise that resolves to the response.
  */
-export async function fetchWrapper(config: RequestConfig): Promise<Response> {
+export async function fetchWrapper(
+    config: RequestConfig
+): Promise<Response | ReadableStream | string> {
     const { baseURL, url, ...fetchOptions } = config;
     const resolvedUrl = resolveUrl(baseURL, url);
 
     try {
+        //
+        // if (
+        //     config.body &&
+        //     typeof config.body === "object" &&
+        //     headers.get("Content-Type") === "application/json"
+        // ) {
+        //     config.body = JSON.stringify(config.body);
+        // }
+
         const response = await fetch(resolvedUrl, fetchOptions);
 
         // Automatically throw an error on failed HTTP status codes (e.g., 404, 500).
@@ -40,7 +51,35 @@ export async function fetchWrapper(config: RequestConfig): Promise<Response> {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        return response;
+        // Check the response content type and return the appropriate data type.
+        const contentType = response.headers.get("Content-Type");
+        if (contentType?.includes("application/json")) {
+            return response.json();
+        } else if (contentType?.includes("text/")) {
+            return response.text();
+        }
+
+        // Check if streaming is requested and supported
+        if (config.stream && response.body) {
+            // Handle streaming response
+            const reader = response.body.getReader();
+            return new ReadableStream({
+                async start(controller) {
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) {
+                            break; // Exit the loop if the stream is finished
+                        }
+                        controller.enqueue(value); // Enqueue chunk into the stream
+                    }
+                    controller.close(); // Close the stream
+                    reader.releaseLock();
+                },
+            });
+        } else {
+            // Return the full response for non-streaming requests
+            return response;
+        }
     } catch (error) {
         console.error("Fetch error:", error);
         throw error; // Re-throw the error for further handling.

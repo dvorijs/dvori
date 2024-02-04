@@ -1,9 +1,11 @@
 export interface ClientConfig extends RequestInit {
     baseURL?: string; // Specify a base URL for all requests made by the client.
+    stream?: boolean; // Specify whether to return a ReadableStream instead of a Response.
     composables?: Composable[]; // List of global composables applied to every request.
 }
 
-export interface RequestConfig extends Omit<ClientConfig, "composables"> {
+export interface RequestConfig
+    extends Omit<ClientConfig, "composables | stream"> {
     url: string; // URL or a path that will be resolved against baseURL if provided.
 }
 

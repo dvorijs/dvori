@@ -52,32 +52,31 @@ export function defineClient(config: ClientConfig) {
     // A wrapper around fetchWrapper that includes lifecycle hook execution
     async function customFetch(
         requestOptions: RequestConfig
-    ): Promise<Response> {
-        let fullRequestOptions = {
-            ...config,
-            ...requestOptions,
-            url: requestOptions.url,
-        };
+    ): Promise<Response | ReadableStream> {
+        // TODO: Only pass the request options to the beforeRequest hook
 
         try {
             // Execute beforeRequest hooks
-            fullRequestOptions = await executeLifecycleStep(
+            let updatedRequestOptions = await executeLifecycleStep(
                 "beforeRequest",
-                fullRequestOptions
+                requestOptions
             );
+
+            const fullRequestOptions = {
+                ...config,
+                ...updatedRequestOptions,
+                url: requestOptions.url,
+            };
 
             // const response = await fetchWrapper(fullRequestOptions);
 
             const response = await fetchWrapper(fullRequestOptions);
 
             // Execute afterResponse hooks
-            await executeLifecycleStep("afterResponse", response);
-
-            return response;
+            return await executeLifecycleStep("afterResponse", response);
         } catch (error) {
             // Execute onError hooks
-            await executeLifecycleStep("onError", error);
-            throw error;
+            throw await executeLifecycleStep("onError", error);
         } finally {
             // Execute finalize hooks
             await executeLifecycleStep("finalize", {});
