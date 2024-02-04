@@ -36,8 +36,6 @@ afterAll(() => server.close());
 test("integration test with authentication composable", async () => {
     const useAuth = defineComposable({
         beforeRequest: async (config) => {
-            console.log("beforeRequest() called");
-            console.log(config);
             // Add the Authorization header to the request
             return {
                 ...config,
