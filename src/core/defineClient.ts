@@ -52,7 +52,7 @@ export function defineClient(config: ClientConfig) {
     // A wrapper around fetchWrapper that includes lifecycle hook execution
     async function customFetch(
         requestOptions: RequestConfig
-    ): Promise<Response | ReadableStream> {
+    ): Promise<Response | ReadableStream | string> {
         // TODO: Only pass the request options to the beforeRequest hook
 
         try {

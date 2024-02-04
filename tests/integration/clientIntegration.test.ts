@@ -53,9 +53,8 @@ test("integration test with authentication composable", async () => {
     });
 
     // Testing authenticated request
-    const response = await client.post("/test-endpoint");
-    const data = await response.json();
+    const data = await client.post("/test-endpoint");
 
     // Verify the response
-    expect(data.message).toBe("Authenticated");
+    expect((data as any).message).toBe("Authenticated");
 });
