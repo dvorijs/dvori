@@ -1,8 +1,15 @@
+// I N T E R F A C E S
 export interface ClientConfig extends RequestInit {
     baseURL?: string; // Specify a base URL for all requests made by the client.
+    params?: Record<string, string | number>;
     stream?: boolean; // Specify whether to return a ReadableStream instead of a Response.
     parseResponse?: boolean; // Specify whether to automatically parse the response body based on the content type.
     composables?: Composable[]; // List of global composables applied to every request.
+    timeout?: number; // For implementing request timeout
+    signal?: AbortSignal; // New: Support for passing an existing AbortSignal
+
+    onUploadProgress?: (progressEvent: ProgressEvent) => void;
+    onDownloadProgress?: (progressEvent: ProgressEvent) => void;
 }
 
 export interface RequestConfig
@@ -26,6 +33,19 @@ export interface LifecycleGroups {
     finalize: Function[];
 }
 
+// E N U M S
+declare global {
+    var Bun: any;
+    var Deno: any;
+}
+export enum Environment {
+    Browser = "browser",
+    Node = "node",
+    Bun = "bun",
+    Deno = "deno",
+}
+
+// T Y P E S
 export type ComposableKey = keyof Composable;
 export type LifecycleKey = keyof LifecycleGroups;
 export type VerbMethodOptions = Omit<RequestConfig, "url">;

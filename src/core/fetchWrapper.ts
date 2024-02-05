@@ -71,38 +71,33 @@ export function encodeUrlForm(data: Record<string, any>): string {
  * Prepares request headers and body, ensuring proper serialization and header setting.
  * This function is updated to handle all forms of HeadersInit, including arrays of key-value pairs.
  *
+ * @param method - The HTTP method for the request.
  * @param headers - Initial headers for the request in any valid HeadersInit format or undefined.
  * @param body - The body of the request, which may be an object that needs serialization.
  * @returns An object containing processed headers and potentially serialized body.
  */
 export function prepareRequest(
+    method: string, // Add method parameter
     headers: HeadersInit | undefined,
     body: any
 ): { headers: Headers; body: any } {
     const processedHeaders =
         headers instanceof Headers ? headers : new Headers(headers);
 
-    // Automatically set the Content-Type header based on the type of body
+    // Set Content-Type and Accept headers for JSON bodies on POST, PUT, PATCH requests
     if (
         body &&
         typeof body === "object" &&
-        !processedHeaders.has("Content-Type")
+        !processedHeaders.has("Content-Type") &&
+        ["POST", "PUT", "PATCH"].includes(method.toUpperCase())
     ) {
-        if (body instanceof FormData) {
-            // FormData is automatically handled; no need to explicitly set Content-Type
-            // }
-            // else if (config.forceUrlEncoded) {
-            //     // This is a hypothetical flag in your RequestConfig
-            //     processedHeaders.set(
-            //         "Content-Type",
-            //         "application/x-www-form-urlencoded"
-            //     );
-            //     body = encodeUrlForm(body); // Encode the body as URL-form-encoded string
-        } else {
-            // Default to JSON for other object types, assuming it's not FormData, Blob, ArrayBuffer, etc.
-            processedHeaders.set("Content-Type", "application/json");
-            body = JSON.stringify(body); // Serialize the body as JSON
-        }
+        processedHeaders.set("Content-Type", "application/json");
+        processedHeaders.set("Accept", "application/json");
+        body = JSON.stringify(body);
+    }
+
+    if (method.toUpperCase() === "GET") {
+        body = undefined; // Ensure body is not sent with GET requests
     }
 
     return { headers: processedHeaders, body };
@@ -127,7 +122,7 @@ export const parseResponseByContentType = async <T>(
     }
 
     const parseJson = async <T>(response: Response): Promise<T> => {
-        return response.json();
+        return response.json() as Promise<T>;
     };
     const parseText = (response: Response) => response.text();
     const parseArrayBuffer = (response: Response) => response.arrayBuffer();
@@ -215,22 +210,57 @@ export function resolveUrl(baseURL: string | undefined, url: string): string {
 export async function fetchWrapper<T>(
     config: RequestConfig
 ): Promise<ResponseReturnType<T> | StreamedResponse> {
-    const { baseURL, url, headers, body, ...fetchOptions } = config;
-    const resolvedUrl = resolveUrl(baseURL, url); // Resolve the full URL based on baseURL and provided path.
+    const {
+        baseURL,
+        url,
+        headers,
+        params,
+        body,
+        method = "GET",
+        timeout = 10000, // Default timeout of 10 seconds
+        signal: userSignal,
+        ...fetchOptions
+    } = config;
+    let resolvedUrl = resolveUrl(baseURL, url); // Resolve the full URL based on baseURL and provided path.
+
+    if (
+        method.toUpperCase() === "GET" &&
+        params &&
+        Object.keys(params).length
+    ) {
+        const queryString = new URLSearchParams(params as any).toString();
+        resolvedUrl += (resolvedUrl.includes("?") ? "&" : "?") + queryString;
+    }
+
+    // Create an AbortController instance and set a timeout for the request
+    const controller = userSignal ? undefined : new AbortController();
+    const signal = userSignal ?? controller?.signal;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
+
+    // Setup timeout using either the provided or the new AbortController
+    if (timeout && controller) {
+        timeoutId = setTimeout(() => controller.abort(), timeout);
+    }
 
     // Prepare headers and potentially serialize body
     const { headers: processedHeaders, body: processedBody } = prepareRequest(
+        method,
         headers,
         body
     );
+
+    // Set default fetch options and override with any provided options
+    fetchOptions.mode = fetchOptions.mode || "cors"; // Default to 'cors' if not specified
+    fetchOptions.referrerPolicy =
+        fetchOptions.referrerPolicy || "no-referrer-when-downgrade";
 
     try {
         const response = await fetch(resolvedUrl, {
             ...fetchOptions,
             headers: processedHeaders,
             body: processedBody,
+            signal,
         });
-        // const response = await fetch(resolvedUrl, fetchOptions);
 
         // Automatically throw an error on failed HTTP status codes (e.g., 404, 500),
         // enhancing the error object with the response for additional context.
@@ -254,8 +284,16 @@ export async function fetchWrapper<T>(
         // Return the full response object for non-streaming requests or when automatic parsing is disabled.
         return response;
     } catch (error) {
+        // TODO: Handle errors more elegantly
+        if (error instanceof Error && error.name === "AbortError") {
+            console.error("Fetch request was aborted: ", error);
+        }
         console.error("Fetch error:", error);
         throw error; // Re-throw the error for further handling, ensuring it includes enhanced context.
+    } finally {
+        if (timeoutId !== undefined) {
+            clearTimeout(timeoutId);
+        }
     }
 }
 

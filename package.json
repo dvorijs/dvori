@@ -2,10 +2,11 @@
     "name": "dvori",
     "version": "2.0.0",
     "description": "A composable HTTP client",
-    "main": "dist/index.js",
+    "main": "dist/dvori.cjs.js",
     "type": "module",
     "scripts": {
-        "test": "vitest"
+        "test": "vitest",
+        "build": "node build.mjs"
     },
     "author": "Nate Smith (https://imns.co/)",
     "license": "MPL-2.0",
@@ -13,7 +14,20 @@
         "@types/node": "^20.11.16",
         "esbuild": "^0.20.0",
         "msw": "^2.1.5",
+        "ts-node": "^10.9.2",
         "typescript": "^5.3.3",
         "vitest": "^1.2.2"
+    },
+    "engines": {
+        "node": ">=18"
+    },
+    "exports": {
+        ".": {
+            "import": "./dist/dvori.esm.js",
+            "require": "./dist/dvori.cjs.js",
+            "browser": "./dist/dvori.browser.js",
+            "deno": "./dist/dvori.deno.js",
+            "default": "./dist/dvori.node.js"
+        }
     }
 }

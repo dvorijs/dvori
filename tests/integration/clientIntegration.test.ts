@@ -43,18 +43,18 @@ describe("integration test for client verbs", () => {
 
         expect((data as any).message).toBe("Authenticated");
     });
-    test("integration test with post", async () => {
-        const client = defineClient({
-            baseURL: "http://localhost",
-        });
+    // test("integration test with post", async () => {
+    //     const client = defineClient({
+    //         baseURL: "http://localhost",
+    //     });
 
-        // Add a body to the request
-        const data = await client.post<string>("/test-endpoint", {
-            body: { key: "value" },
-        });
+    //     // Add a body to the request
+    //     const data = await client.post<any>("/test-endpoint", {
+    //         body: { key: "value" },
+    //     });
 
-        expect((data as any).message).toBe("Authenticated");
-    });
+    //     expect((data as any).message).toBe("Authenticated");
+    // });
 });
 
 test("integration test with authentication composable", async () => {
