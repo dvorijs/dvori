@@ -83,13 +83,6 @@ export function prepareRequest(
         headers instanceof Headers ? headers : new Headers(headers);
 
     // Automatically set the Content-Type header based on the type of body
-    console.log("prepareRequest() called");
-    console.log("body: ", body);
-    console.log("typeof body: ", typeof body === "object");
-    console.log(
-        "processedHeaders.has('Content-Type'): ",
-        processedHeaders.has("Content-Type")
-    );
     if (
         body &&
         typeof body === "object" &&

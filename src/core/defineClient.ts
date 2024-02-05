@@ -5,6 +5,8 @@ import {
     ComposableKey,
     LifecycleKey,
     VerbMethodOptions,
+    ResponseReturnType,
+    StreamedResponse,
 } from "../types/index";
 import fetchWrapper from "./fetchWrapper";
 
@@ -50,9 +52,9 @@ export function defineClient(config: ClientConfig) {
     }
 
     // A wrapper around fetchWrapper that includes lifecycle hook execution
-    async function customFetch(
+    async function customFetch<T>(
         requestOptions: RequestConfig
-    ): Promise<Response | ReadableStream | string> {
+    ): Promise<ResponseReturnType<T> | StreamedResponse> {
         // TODO: Only pass the request options to the beforeRequest hook
 
         try {
@@ -70,7 +72,7 @@ export function defineClient(config: ClientConfig) {
 
             // const response = await fetchWrapper(fullRequestOptions);
 
-            const response = await fetchWrapper(fullRequestOptions);
+            const response = await fetchWrapper<T>(fullRequestOptions);
 
             // Execute afterResponse hooks
             return await executeLifecycleStep("afterResponse", response);
@@ -85,11 +87,14 @@ export function defineClient(config: ClientConfig) {
 
     // HTTP method implementations
     return {
-        async get(url: string, options: VerbMethodOptions = {}) {
-            return customFetch({ ...options, url, method: "GET" });
+        async get<T>(url: string, options: VerbMethodOptions = {}) {
+            return customFetch<T>({ ...options, url, method: "GET" });
         },
-        async post(url: string, options: VerbMethodOptions = {}) {
-            return customFetch({ ...options, url, method: "POST" });
+        async post<T>(
+            url: string,
+            options: VerbMethodOptions = {}
+        ): Promise<ResponseReturnType<T> | StreamedResponse> {
+            return customFetch<T>({ ...options, url, method: "POST" });
         },
         async put(url: string, options: VerbMethodOptions = {}) {
             return customFetch({ ...options, url, method: "PUT" });

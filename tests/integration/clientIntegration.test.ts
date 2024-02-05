@@ -1,5 +1,5 @@
 import { defineClient, defineComposable } from "../../src/index";
-import { test, expect, beforeAll, afterEach, afterAll } from "vitest";
+import { describe, test, expect, beforeAll, afterEach, afterAll } from "vitest";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 
@@ -32,6 +32,30 @@ afterEach(() => server.resetHandlers());
 
 // Clean up after the tests are finished
 afterAll(() => server.close());
+
+describe("integration test for client verbs", () => {
+    test("integration test with get", async () => {
+        const client = defineClient({
+            baseURL: "http://localhost",
+        });
+
+        const data = await client.get("/test-endpoint");
+
+        expect((data as any).message).toBe("Authenticated");
+    });
+    test("integration test with post", async () => {
+        const client = defineClient({
+            baseURL: "http://localhost",
+        });
+
+        // Add a body to the request
+        const data = await client.post<string>("/test-endpoint", {
+            body: { key: "value" },
+        });
+
+        expect((data as any).message).toBe("Authenticated");
+    });
+});
 
 test("integration test with authentication composable", async () => {
     const useAuth = defineComposable({
