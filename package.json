@@ -3,6 +3,7 @@
     "version": "2.0.0",
     "description": "A composable HTTP client",
     "main": "dist/dvori.cjs.js",
+    "types": "dist/index.d.ts",
     "type": "module",
     "scripts": {
         "test": "vitest",
@@ -15,6 +16,8 @@
         "esbuild": "^0.20.0",
         "msw": "^2.1.5",
         "ts-node": "^10.9.2",
+        "typedoc": "^0.25.7",
+        "typedoc-plugin-markdown": "^3.17.1",
         "typescript": "^5.3.3",
         "vitest": "^1.2.2"
     },
@@ -23,11 +26,22 @@
     },
     "exports": {
         ".": {
-            "import": "./dist/dvori.esm.js",
-            "require": "./dist/dvori.cjs.js",
+            "import": "./dist/dvori.mjs",
+            "require": "./dist/dvori.cjs",
             "browser": "./dist/dvori.browser.js",
             "deno": "./dist/dvori.deno.js",
-            "default": "./dist/dvori.node.js"
+            "default": "./dist/dvori.mjs"
         }
-    }
+    },
+    "keywords": [
+        "http",
+        "request",
+        "rest",
+        "http-client",
+        "functional",
+        "composable",
+        "compose",
+        "util",
+        "utility"
+    ]
 }

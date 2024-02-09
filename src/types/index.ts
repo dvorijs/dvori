@@ -8,24 +8,37 @@ export interface ClientConfig extends RequestInit {
     timeout?: number; // For implementing request timeout
     signal?: AbortSignal; // New: Support for passing an existing AbortSignal
 
-    onUploadProgress?: (progressEvent: ProgressEvent) => void;
     onDownloadProgress?: (progressEvent: ProgressEvent) => void;
 }
 
 export interface RequestConfig
-    extends Omit<ClientConfig, "composables | stream"> {
+    extends Omit<ClientConfig, "composables | stream | parseResponse"> {
     url: string; // URL or a path that will be resolved against baseURL if provided.
+}
+
+export interface PostRequestHookParams {
+    config: RequestConfig;
+    retry: () => Promise<any> | void;
+    cancel: () => Promise<void> | void;
+    client: any;
 }
 
 export interface Composable {
     beforeRequest?: (
         config: RequestConfig
     ) => Promise<RequestConfig> | RequestConfig;
-    afterResponse?: (response: Response) => Promise<Response> | Response;
-    onError?: (error: any) => Promise<any> | any;
-    finalize?: () => void;
+    afterResponse?: (
+        response: Response,
+        helpers?: PostRequestHookParams
+    ) => Promise<Response> | Response;
+    onError?: (
+        error: any,
+        helpers?: PostRequestHookParams
+    ) => Promise<any> | any;
+    finalize?: (helpers?: PostRequestHookParams) => void;
 }
 
+// Used to group lifecycle hooks by their purpose
 export interface LifecycleGroups {
     beforeRequest: Function[];
     afterResponse: Function[];
@@ -50,13 +63,11 @@ export type ComposableKey = keyof Composable;
 export type LifecycleKey = keyof LifecycleGroups;
 export type VerbMethodOptions = Omit<RequestConfig, "url">;
 
-// Define a new type specifically for streamed responses.
 export type StreamedResponse = ReadableStream<Uint8Array> | null;
 
-// Adjust the ResponseReturnType to include the new StreamedResponse type.
 export type ResponseReturnType<T> =
     | Response
-    | StreamedResponse // Use the new StreamedResponse type here.
+    | StreamedResponse
     | ArrayBuffer
     | Blob
     | string

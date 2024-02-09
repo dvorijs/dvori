@@ -23,6 +23,7 @@
         "noUnusedParameters": true,
         "checkJs": false,
         "allowJs": true,
+        "emitDeclarationOnly": true,
         "declaration": true,
         "outDir": "dist"
     },
