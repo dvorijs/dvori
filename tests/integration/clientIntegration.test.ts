@@ -1,12 +1,30 @@
 import { defineClient, defineComposable } from "../../src/index";
-import { describe, test, expect, beforeAll, afterEach, afterAll } from "vitest";
+import {
+    describe,
+    test,
+    expect,
+    beforeAll,
+    afterEach,
+    afterAll,
+    vi,
+} from "vitest";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 
+// Create a mock fetch function
+const mockFetch = vi.fn();
+
+// Stub the global fetch with the mockFetch
+vi.stubGlobal("fetch", mockFetch);
+global.fetch = vi.fn();
+
 // Define a mock server with request handlers
 const server = setupServer(
+    http.get("http://localhost/test-get", ({ request }) => {
+        return HttpResponse.json({ message: "ok" });
+    }),
     // Intercept POST /test-endpoint requests
-    http.post("http://localhost/test-endpoint", ({ request }) => {
+    http.post("http://localhost/test-post", ({ request }) => {
         // Simulate an API that requires an Authorization header
         const authHeader = request.headers.get("Authorization");
         // console.log(request.headers);
@@ -39,46 +57,59 @@ describe("integration test for client verbs", () => {
             baseURL: "http://localhost",
         });
 
-        const data = await client.get("/test-endpoint");
+        const data = await client.get("/test-get");
+
+        expect((data as any).message).toBe("ok");
+    });
+    test("integration test with post", async () => {
+        function createFetchResponse(data) {
+            return { json: () => new Promise((resolve) => resolve(data)) };
+        }
+        mockFetch.mockResolvedValue(
+            new Response(JSON.stringify({ message: "Authenticated" }), {
+                status: 200,
+            })
+        );
+
+        const client = defineClient({
+            baseURL: "http://localhost",
+        });
+
+        // Add a body to the request
+        const data = await client.post("/test-post", {
+            body: { key: "value" },
+        });
 
         expect((data as any).message).toBe("Authenticated");
     });
-    // test("integration test with post", async () => {
-    //     const client = defineClient({
-    //         baseURL: "http://localhost",
-    //     });
 
-    //     // Add a body to the request
-    //     const data = await client.post<any>("/test-endpoint", {
-    //         body: { key: "value" },
-    //     });
+    test("integration test with authentication composable", async () => {
+        mockFetch.mockResolvedValue(
+            new Response(JSON.stringify({ data: "ok" }), { status: 200 })
+        );
 
-    //     expect((data as any).message).toBe("Authenticated");
-    // });
-});
+        const useAuth = defineComposable({
+            beforeRequest: async (config) => {
+                // Add the Authorization header to the request
+                return {
+                    ...config,
+                    headers: {
+                        ...config.headers,
+                        Authorization: "Bearer valid-token",
+                    },
+                };
+            },
+        });
 
-test("integration test with authentication composable", async () => {
-    const useAuth = defineComposable({
-        beforeRequest: async (config) => {
-            // Add the Authorization header to the request
-            return {
-                ...config,
-                headers: {
-                    ...config.headers,
-                    Authorization: "Bearer valid-token",
-                },
-            };
-        },
+        const client = defineClient({
+            baseURL: "http://localhost",
+            composables: [useAuth],
+        });
+
+        // Testing authenticated request
+        const data = await client.post("/test-post");
+
+        // Verify the response
+        expect((data as any).message).toBe("Authenticated");
     });
-
-    const client = defineClient({
-        baseURL: "http://localhost",
-        composables: [useAuth],
-    });
-
-    // Testing authenticated request
-    const data = await client.post("/test-endpoint");
-
-    // Verify the response
-    expect((data as any).message).toBe("Authenticated");
 });
