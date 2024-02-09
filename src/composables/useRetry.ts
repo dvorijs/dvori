@@ -1,37 +1,44 @@
-// import { defineComposable } from "../core/defineComposable";
-// import type { RequestConfig } from "../types/index";
+import { defineComposable } from "../core/defineComposable";
 
-// enum RetryStrategy {
-//     Immediate = "immediate",
-//     Linear = "linear",
-//     Exponential = "exponential",
-// }
+interface RetryProps {
+    retries?: number;
+    strategy?: "immediate" | "linear" | "exponential";
+    delay?: number;
+}
 
-// function calculateExponentialDelay(retries: number, delay: number) {
-//     const backoffRate = Math.pow(2, retries);
-//     return delay * backoffRate;
-// }
+function calculateExponentialDelay(currentRetry: number, delay: number = 100) {
+    const backoffRate = Math.pow(2, currentRetry);
+    return delay * backoffRate;
+}
 
-// async function wait(ms: number) {
-//     return new Promise((resolve) => setTimeout(resolve, ms));
-// }
+async function wait(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-// export function useRetry(
-//     retries = 3,
-//     strategy: RetryStrategy = RetryStrategy.Exponential,
-//     delay = 1000
-// ) {
-//     return defineComposable({
-//         async onError(error: any, {client, retry, state, cancel}) {
-//             if (retries <= 0) {
-//                 return error;
-//             }
-//             retries--;
+// TODO: Add retry on status code, ex: [500, 503]
+export function useRetry({
+    retries = 3,
+    strategy = "exponential",
+    delay = 100,
+}: RetryProps | undefined = {}) {
+    return defineComposable({
+        async onError(error, { retry }) {
+            if (retries <= 0) {
+                throw error;
+            }
+            console.log(`${retries} retries left`);
 
-//             // TODO
-//             await delay(calculateExponentialDelay());
-//         },
-//     });
-// }
+            if (strategy === "linear") {
+                await wait(delay);
+            }
+            // Exponential is the default strategy
+            else {
+                await wait(calculateExponentialDelay(retries, delay));
+            }
 
-// const response = client.get('/url', {composable: [useRetry()]});
+            retries--;
+
+            return await retry();
+        },
+    });
+}

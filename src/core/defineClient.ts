@@ -92,7 +92,7 @@ export async function customFetch<T>(
         return controller.abort();
     };
 
-    const postRequestParams = {
+    const postRequestParams: Partial<PostRequestHookParams> = {
         retry,
         cancel,
         client,
@@ -122,7 +122,7 @@ export async function customFetch<T>(
             {
                 ...postRequestParams,
                 config: fullRequestOptions,
-            }
+            } as PostRequestHookParams
         );
     } catch (error) {
         // Execute onError hooks
@@ -133,7 +133,7 @@ export async function customFetch<T>(
             {
                 ...postRequestParams,
                 config: currentConfig,
-            }
+            } as PostRequestHookParams
         );
         if (processedError instanceof Error) {
             throw processedError; // Rethrow a possibly transformed error
@@ -146,7 +146,7 @@ export async function customFetch<T>(
         await executeLifecycleHook("finalize", {}, lifecycleGroups, {
             ...postRequestParams,
             config: currentConfig,
-        });
+        } as PostRequestHookParams);
     }
 }
 

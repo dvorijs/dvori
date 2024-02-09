@@ -33,7 +33,7 @@ export interface Composable {
     ) => Promise<Response> | Response;
     onError?: (
         error: any,
-        helpers?: PostRequestHookParams
+        helpers: PostRequestHookParams
     ) => Promise<any> | any;
     finalize?: (helpers?: PostRequestHookParams) => void;
 }
