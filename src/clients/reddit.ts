@@ -11,6 +11,13 @@ const redditOAuth2 = useOAuth2({
     userAgent: "dvori",
 });
 
+const redditRefreshToken = defineClient({
+    baseURL: REFRESH_TOKEN_BASE_URL,
+    headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+    },
+});
+
 export const redditClient = defineClient({
     baseURL: API_BASE_URL,
     composables: [redditOAuth2],
